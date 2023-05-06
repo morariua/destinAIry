@@ -8,8 +8,10 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('auth_app:login')
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('auth/login')  # Redirect to login page after successful registration
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
@@ -30,4 +32,7 @@ def login(request):
 
 def logout(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
+
+def home(request):
+    return render(request, 'home.html')
