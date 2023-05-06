@@ -1,0 +1,12 @@
+<html>
+<h1>API Key</h1>
+    {% if api_key %}
+<p>Your current API key is: <strong>{{ api_key }}</strong></p>
+    {% else %}
+<p>You do not currently have an API key.</p>
+    {% endif %}
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Generate new API key</button>
+</form>
+</html>
