@@ -1,23 +1,11 @@
 ###################HUMAN MESSAGE PROMPT
-from langchain.prompts.chat import (
-    ChatPromptTemplate,
-    SystemMessagePromptTemplate,
-    AIMessagePromptTemplate,
-    HumanMessagePromptTemplate,
-)
-from langchain.schema import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage
-)
 human_template = "I am {first_name} {last_name}, {nationality} of age {age} & gender {gender}. I wish to plan a trip to {destinations} for duration: {duration}, starting on: {start_date}." \
                          "Here are more details about me:" \
                          "Personality: {personality}" \
                          "Trip Prefs: {trip_prefs}" \
                          "Special Prefs: {spec_prefs}" \
                          "Daily Budget: {budget}"
-human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
-print(f"human_message_prompt: {human_message_prompt}\n")
+
 ###################SYSTEM MESSAGE PROMPT
 # now break our previous prompt into a prefix and suffix
 # the prefix is our instructions
@@ -36,25 +24,10 @@ ALWAYS respond in the following format:
 itinerary in $CSV_BLOB
 ```"""
 
-
-from langchain.prompts import (
-    ChatPromptTemplate,
-    PromptTemplate,
-    SystemMessagePromptTemplate,
-    AIMessagePromptTemplate,
-    HumanMessagePromptTemplate,
-)
-from langchain.schema import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage
-)
-PromptTemplate
-
 from langchain import FewShotPromptTemplate, PromptTemplate
 from .chatExamples import example_selector, example_prompt
 # now create the few shot prompt template
-few_shot_prompt_template = FewShotPromptTemplate(
+few_shot_system_prompt_template = FewShotPromptTemplate(
     example_selector=example_selector,
     example_prompt=example_prompt,
     prefix=prefix,
@@ -63,11 +36,6 @@ few_shot_prompt_template = FewShotPromptTemplate(
     example_separator="\n"
 )
 
-system_message_prompt = SystemMessagePromptTemplate.from_template(few_shot_prompt_template.format())
-print(f"system_message_prompt: {system_message_prompt}\n")
-
-chat_prompt = ChatPromptTemplate.from_messages([system_message_prompt, human_message_prompt])
-print(f"chat_prompt: {chat_prompt}\n")
 
 ###### OLD TEMPLATES KEPT BELOW
 # template = """You are DestinAIry, a very creative & meticulous itinerary planner that can plan itineraries that best suit users, using every personal detail that users provide you. An itinerary includes suggested accommodations, where its Date is Date of check-in. You converse with users professionally using their names, using numbered bullet points to ask for their personal details namely: personality (eg. risk-taking or happy-go-lucky), race, religion, age, nationality, gender, preferred currency, trip preferences such as cafe-hopping, hiking, city-exploring, or sport-loving, how many days to travel, which region or countries should it include, which date to start travelling, a daily budget for accommodation, any other special preferences such as the itinerary must be pet-friendly or wheelchair-friendly.
