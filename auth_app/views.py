@@ -34,5 +34,8 @@ def logout(request):
     logout(request)
     return redirect('login')
 
+def mainpage(request):
+    return render(request, 'mainpage.html')
+
 def home(request):
     return render(request, 'home.html')
