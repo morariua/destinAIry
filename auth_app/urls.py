@@ -8,7 +8,7 @@ app_name = 'auth_app'
 
 urlpatterns = [
     path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
+    path('login/', views.login_view, name='login'),
     path('logout/', views.logout, name='logout'),
     path('mainpage/', views.mainpage, name='mainpage'),
     path('home/', views.home, name='home'),

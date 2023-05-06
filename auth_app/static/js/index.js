@@ -14,7 +14,7 @@ function initMap() {
       const marker = new google.maps.Marker({
         position: { lat: location.latitude, lng: location.longitude },
         map: map,
-        title: location.name,
+        location: location.name,
       });
       markers.push(marker);
     });
@@ -48,6 +48,7 @@ function initMap() {
     }
   }
 
+  
   window.onload = function() {
     initMap();
-  }
+  };

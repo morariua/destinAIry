@@ -1,8 +1,28 @@
 <!-- auth_app/login.html -->
+{% load static %}
 
-<h2>Register</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign-Up</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'register.css' %}">
+
+    <title>DestinAIry - Register</title>
+</head>
+<body>
+    <h2>Register</h2>
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+        <button type="submit">Sign-Up</button>
+        <span class="login-status">Already a Member? <a>Login Here</a></span>
+        </form>
+        
+    </div>
+
+    
+</body>
+</html>
