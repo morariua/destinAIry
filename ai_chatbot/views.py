@@ -1,4 +1,7 @@
 import json
+from typing import re
+
+import pandas as pd
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -111,13 +114,26 @@ def view_API(request): ## do not need to use APIView parent class
             res = {'answer': INPUT_EXCEEDED_MESSAGE}
             return JsonResponse(res)
         try:
-            response = langllamaSetup.agentExecutor_2Nimbus.run(input=question.replace('\n', ' ')).strip().replace('\n', '<br>')
+            response = langllamaSetup.agentExecutor_DestinAIry.run(input=question.replace('\n', ' ')).strip().replace('\n', '<br>')
         except ValueError as e:
             response = str(e)
             if not response.startswith("Could not parse LLM output: "):
                 raise e
             response = response.removeprefix("Could not parse LLM output: ").removesuffix("`").strip()
         num_tokens_from_string(response, OPENAI_CHAT_MODEL, "---RESPONSE")
+        #### GET CSV OUTPUT
+        csv_output = response.split("```")[1]
+        #### CONVERTING CSV TO JSON
+        # Split the string into rows
+        rows = csv_output.split('\n')
+        # Split each row into columns
+        columns = [row.split(',') for row in rows]
+        # Create a DataFrame from the columns
+        df = pd.DataFrame(columns[1:], columns=columns[0])
+
+        # Convert the DataFrame to a JSON object
+        json = df.to_json(orient='records')
+        response = json.loads(action.strip())
         res = {}
         res['answer'] = response
         return JsonResponse(res)
@@ -133,19 +149,46 @@ def view_UI(request):
             res = {}
             res['answer'] = INPUT_EXCEEDED_MESSAGE
             return JsonResponse(res)
-        try:
-            response = langllamaSetup.agentExecutor_2Nimbus.run(input=question.replace('\n', ' ')).strip().replace('\n', '<br>')
-            if response.__contains__("None"):
-                response = "Sorry, I do not have the answer to your question."
-        except ValueError as e:
-            response = str(e)
-            if not response.startswith("Could not parse LLM output: "):
-                raise e
-            response = response.removeprefix("Could not parse LLM output: ").removesuffix("`").strip()
-        num_tokens_from_string(response, OPENAI_CHAT_MODEL, "---RESPONSE")
-        res = {}
-        res['answer'] = response
-        return JsonResponse(res)
+        # response = langllamaSetup.agentExecutor_DestinAIry.run(input=question.replace('\n', ' ')).strip().replace('\n', '<br>')
+        from .chatTempl import chat_prompt
+        print(f"chat_prompt: {chat_prompt}")
+        response = chat_prompt.format()
+        print(f"response: {response}")
+        # try:
+        #     if response.__contains__("None"):
+        #         response = "Sorry, I do not have the answer to your question."
+        # except ValueError as e:
+        #     response = str(e)
+        #     if not response.startswith("Could not parse LLM output: "):
+        #         raise e
+        #     response = response.removeprefix("Could not parse LLM output: ").removesuffix("`").strip()
+        # num_tokens_from_string(response, OPENAI_CHAT_MODEL, "---RESPONSE")
+        # itinerary_match = re.search(r"```(.*?)```?", response, re.DOTALL)
+        # if itinerary_match is not None:
+        #     text = json.loads(itinerary_match.group(1).strip(), strict=False)
+        # # Remove leading and trailing spaces from column names
+        # text_formatted = text.replace('"', '')
+        # columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
+        # print(f"columns: {columns}")
+        # # Split the string into rows
+        # rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
+        # print(f"rows: {rows}")
+        # # Create a DataFrame from the columns
+        # df = pd.DataFrame(rows, columns=columns).replace('"', '', regex=True)
+        #
+        # # Set the date column as the index
+        # df.set_index('date', inplace=False) ## if True, date column will disappear
+        #
+        # # Convert the DataFrame to a JSON object
+        # json_output = df.to_json(orient='records')
+        #
+        # # Print the JSON object
+        # print(json_output)
+        #
+        # res = {}
+        # res['answer'] = rows
+        # print(f"\n\nr0ws: {rows}")
+        # return JsonResponse(res)
     return render(request, 'chatb0t.html')
 
 

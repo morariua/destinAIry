@@ -6,7 +6,6 @@ def setup_chatgpt():
     print("ChatGPT set up")
 
 import secrets
-
 class SecretKeyGenerator:
     @staticmethod
     def generate_secret_key():

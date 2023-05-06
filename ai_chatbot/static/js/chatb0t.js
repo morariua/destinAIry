@@ -1,4 +1,4 @@
-let bot_name = "2Nimbus Chatbot";
+let bot_name = "DestinAIry Chatbot";
 // Show the welcome message from AI
 let html_welcome_msg = `
 <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
@@ -30,7 +30,7 @@ $("#gpt-button").click(function () {
     let html_mymsg = '';
     html_mymsg += `
   <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
-    <img src="/static/images/logo_sq.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+    <img src="/static/images/favicon.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
     <div class="d-flex gap-2 w-100 justify-content-between">
       <div>
         <p class="mb-0 opacity-75">${question}</p>
