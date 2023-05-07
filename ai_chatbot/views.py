@@ -113,32 +113,32 @@ def view_API(request): ## do not need to use APIView parent class
         if len(question) > int(MAX_CHAR_INPUT):
             res = {'answer': INPUT_EXCEEDED_MESSAGE}
             return JsonResponse(res)
-        # try:
-        #     first_name = python_dict_c0ntent.get("first_name", "NULL")
-        #     last_name = python_dict_c0ntent.get("last_name", "NULL")
-        #     nationality = python_dict_c0ntent.get("nationality", "NULL")
-        #     age = python_dict_c0ntent.get("age", "NULL")
-        #     gender = python_dict_c0ntent.get("gender", "NULL")
-        #     destinations = python_dict_c0ntent.get("destinations", "NULL")
-        #     duration = python_dict_c0ntent.get("duration", "NULL")
-        #     start_date = python_dict_c0ntent.get("start_date", "NULL")
-        #     response = generate_response(text=question, first_name=first_name, last_name=last_name, nationality=nationality,
-        #                                  age=age, gender=gender, destinations=destinations, duration=duration,
-        #                                  start_date=start_date)
-        # except Exception as e:
-        #     print (f"EXCEPTION OCCURRED: {e}")
-        #     res = {'answer': "Sorry, some details were missing in your prompt. Please try again."}
-        #     return JsonResponse(res)
-        # print(f"response: {response}\n\n\n")
-        # content = response.content
-        content = 'I suggest the following itinerary for your 1-day trip to Mongolia on July 1, 2023:' \
-                  '```\n' \
-                  '"date","name","addr","pop","hrs","mode","cost","remark","type"\n' \
-                  '"2023-07-01","Gandantegchinlen Monastery","Gandantegchinlen Khiid","90","2.5","TX","0","Buddhist monastery with impressive statue of Avalokitesvara","POI"\n' \
-                  '"2023-07-01","Gorkhi-Terelj National Park","Gorkhi-Terelj National Park","85","3","TX","0","National park with scenic views and hiking trails","POI"' \
-                  '```' \
-                  'The first place is Gandantegchinlen Monastery, a beautiful Buddhist monastery with an im' \
-                  'pressive statue of Avalokitesvara. The second place is Gorkhi-Terelj National Park, a national park with scenic views and hiking trails. Both places are best reached by car and are highly popular tourist destinations. This itinerary should give you a great taste of Mongolias culture and natural beauty in just one day.'
+        try:
+            first_name = python_dict_c0ntent.get("first_name", "NULL")
+            last_name = python_dict_c0ntent.get("last_name", "NULL")
+            nationality = python_dict_c0ntent.get("nationality", "NULL")
+            age = python_dict_c0ntent.get("age", "NULL")
+            gender = python_dict_c0ntent.get("gender", "NULL")
+            destinations = python_dict_c0ntent.get("destinations", "NULL")
+            duration = python_dict_c0ntent.get("duration", "NULL")
+            start_date = python_dict_c0ntent.get("start_date", "NULL")
+            response = generate_response(text=question, first_name=first_name, last_name=last_name, nationality=nationality,
+                                        age=age, gender=gender, destinations=destinations, duration=duration,
+                                        start_date=start_date)
+        except Exception as e:
+            print (f"EXCEPTION OCCURRED: {e}")
+            res = {'answer': "Sorry, some details were missing in your prompt. Please try again."}
+            return JsonResponse(res)
+        print(f"response: {response}\n\n\n")
+        content = response.content
+        #content = 'I suggest the following itinerary for your 1-day trip to Mongolia on July 1, 2023:' \
+        #          '```\n' \
+        #          '"date","name","addr","pop","hrs","mode","cost","remark","type"\n' \
+        #          '"2023-07-01","Gandantegchinlen Monastery","Gandantegchinlen Khiid","90","2.5","TX","0","Buddhist monastery with impressive statue of Avalokitesvara","POI"\n' \
+        #          '"2023-07-01","Gorkhi-Terelj National Park","Gorkhi-Terelj National Park","85","3","TX","0","National park with scenic views and hiking trails","POI"' \
+        #          '```' \
+        #          'The first place is Gandantegchinlen Monastery, a beautiful Buddhist monastery with an im' \
+        #          'pressive statue of Avalokitesvara. The second place is Gorkhi-Terelj National Park, a national park with scenic views and hiking trails. Both places are best reached by car and are highly popular tourist destinations. This itinerary should give you a great taste of Mongolias culture and natural beauty in just one day.'
         print(f"content: {content}\n\n\n")
         num_tokens_from_string(content, OPENAI_CHAT_MODEL, "---RESPONSE")
         itinerary_match = re.search(r"```(.*?)```?", content, re.DOTALL)

@@ -59,6 +59,10 @@ function sendPost_and_initMap() {
 
 }
 
+function geocode_places(data_itinerary) {
+
+}
+
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 0, lng: 0 }, // Set the initial map center
@@ -116,5 +120,3 @@ fetchMarkersData(); // Call fetchMarkersData() on page load
 window.onload = function () {
 initMap();
 };
-
->>>>>>> 6c66fc8b758ef78d5698dc929c91044581ec0c6a
