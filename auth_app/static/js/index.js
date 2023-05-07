@@ -60,49 +60,10 @@ function initMap() {
       markers.push(marker);
     });
   }
+    // Fetch the JSON data from the Django server
+    function fetchMarkersData() {
+    }
 
-  // Fetch the JSON data from the Django server
-  function fetchMarkersData() {
-    const locations = transformData('text': text,
-    'first_name': first_name,
-    'last_name': last_name,
-    'nationality': nationality,
-    'age': age,
-    'gender': gender,
-    'destinations': destinations,
-    'duration': duration,
-    'start_date': start_date,
-     ); // Replace 'jsonData' with the actual JSON data
-    return fetch('http://127.0.0.1:8000/bot/api/', {
-      method: 'POST',
-      headers: new Headers({
-        'Authorization': 'bc8bf98f3bca1c5071d978b5192ef4c0c23837c85e1a42e5d03902d46d411894',
-        'Content-Type': 'application/json',
-      }),
-<<<<<<< HEAD
-      body: JSON.stringify(),
-=======
-      body: { 'text': text,
-        'first_name': first_name,
-        'last_name': last_name,
-        'nationality': nationality,
-        'age': age,
-        'gender': gender,
-        'destinations': destinations,
-        'duration': duration,
-        'start_date': start_date,
-         },
->>>>>>> ae39520de81e60723ebcc9e93e1b80dfb86e8f6d
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        //
-      console.log(data);
-      createMarkers(data);
-    }).catch((error) => {
-        console.error('Error:', error);
-    });
-  }
 
 // Call fetchMarkersData() when the button is clicked
 document.getElementById("TEST").addEventListener("click", fetchMarkersData);
