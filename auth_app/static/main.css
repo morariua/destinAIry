@@ -1,322 +1,62 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
-    font-size: 14px;
+  background-color: #222;
+  color: #fff;
 }
 
-.v131_76 {
-    width: 100%;
-    height: 3000px;
-    background: rgba(24,31,35,1);
-    opacity: 1;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    overflow: hidden;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.title {
-    width: 221px;
-    height: 38px;
-    background: url("../images/v131_265.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    opacity: 1;
-    position: absolute;
-    top: 66px;
-    left: 72px;
-    overflow: hidden;
+.text-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.v131_266 {
-    width: 50px;
-    height: 36px;
-    background: url("../images/v131_266.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    opacity: 1;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    overflow: hidden;
+.text-areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.titleSquare2 {
-    width: 40px;
-    height: 28px;
-    background: rgba(206,234,247,1);
-    opacity: 1;
-    position: absolute;
-    top: 7px;
-    left: 10px;
+textarea {
+  flex: 1 1 100%;
+  height: 40px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #333;
+  color: #fff;
 }
 
-.titleSquare1 {
-    width: 40px;
-    height: 28px;
-    background: rgba(248,186,144,1);
-    opacity: 1;
-    position: absolute;
-    top: 0px;
-    left: 0px;
+textarea {
+  margin-bottom: 10px;
 }
 
-.v131_269 {
-    width: 162px;
-    color: rgba(206,234,247,1);
-    position: absolute;
-    top: 0px;
-    left: 58px;
-    font-family: Zen Kaku Gothic Antique;
-    font-weight: Regular;
-    font-size: 32px;
-    opacity: 1;
-    text-align: left;
+.map-container {
+  width: 100%;
+  height: 400px; /* Set the desired height of the map */
 }
 
-.v131_270 {
-    width: 172px;
-    height: 66px;
-    background: rgba(206,234,247,1);
-    opacity: 1;
-    position: absolute;
-    top: 64px;
-    left: 1047px;
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
-    overflow: hidden;
-}
-
-.v131_271 {
-    width: 125px;
-    color: rgba(64,102,120,1);
-    position: absolute;
-    top: 81px;
-    left: 1070px;
-    font-family: Zen Kaku Gothic Antique;
-    font-weight: Bold;
-    font-size: 20px;
-    opacity: 1;
-    text-align: center;
-}
-
-.v131_272 {
-    width: 180px;
-    color: rgba(206,234,247,1);
-    position: absolute;
-    top: 77px;
-    left: 710px;
-    font-family: Zen Kaku Gothic Antique;
-    font-weight: Bold;
-    font-size: 20px;
-    opacity: 1;
-    text-align: center;
-}
-
-.v131_273 {
-    width: 180px;
-    color: rgba(206,234,247,1);
-    position: absolute;
-    top: 77px;
-    left: 849px;
-    font-family: Zen Kaku Gothic Antique;
-    font-weight: Bold;
-    font-size: 20px;
-    opacity: 1;
-    text-align: center;
-}
-
-.v131_330 {
-    width: 249px;
-    height: 388px;
-    background: url("../images/v131_330.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    opacity: 1;
-    position: absolute;
-    top: 242px;
-    left: 82px;
-    overflow: hidden;
-}
-
-.v131_318 {
-    width: 124px;
-    height: 129px;
-    background: rgba(125,156,171,1);
-    opacity: 1;
-    position: absolute;
-    top: 0px;
-    left: 124px;
-}
-
-.v131_320 {
-    width: 124px;
-    height: 129px;
-    background: rgba(248,186,144,1);
-    opacity: 1;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
-
-.v131_322 {
-    width: 124px;
-    height: 129px;
-    background: rgba(206,234,247,1);
-    opacity: 1;
-    position: absolute;
-    top: 258px;
-    left: 0px;
-}
-
-.v131_324 {
-    width: 124px;
-    height: 129px;
-    background: rgba(248,186,144,1);
-    opacity: 1;
-    position: absolute;
-    top: 258px;
-    left: 125px;
-}
-
-.v131_326 {
-    width: 124px;
-    height: 129px;
-    background: rgba(125,156,171,1);
-    opacity: 1;
-    position: absolute;
-    top: 129px;
-    left: 0px;
-}
-
-.v131_328 {
-    width: 124px;
-    height: 129px;
-    background: rgba(206,234,247,1);
-    opacity: 1;
-    position: absolute;
-    top: 129px;
-    left: 124px;
-}
-
-.v131_331 {
-    width: 488px;
-    color: rgba(206,234,247,1);
-    position: absolute;
-    top: 242px;
-    left: 423px;
-    font-family: Zen Kaku Gothic Antique;
-    font-weight: Medium;
-    font-size: 32px;
-    opacity: 1;
-    text-align: left;
-}
-
-.v140_240 {
-    width: 324px;
-    color: rgba(255,255,255,1);
-    position: absolute;
-    top: 281px;
-    left: 423px;
-    font-family: Zen Kaku Gothic Antique;
-    font-weight: Regular;
-    font-size: 24px;
-    opacity: 1;
-    text-align: left;
-}
-
-.v132_354 {
-    width: 182px;
-    color: rgba(206,234,247,1);
-    position: absolute;
-    top: 675px;
-    left: 1013px;
-    font-family: Zen Kaku Gothic Antique;
-    font-weight: Medium;
-    font-size: 32px;
-    opacity: 1;
-    text-align: left;
-}
-
-.v131_332 {
-    width: 784px;
-    height: 309px;
-    background: rgba(206,234,247,1);
-    opacity: 1;
-    position: absolute;
-    top: 346px;
-    left: 423px;
-    border-top-left-radius: 17px;
-    border-top-right-radius: 17px;
-    border-bottom-left-radius: 17px;
-    border-bottom-right-radius: 17px;
-    overflow: hidden;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 6px;
-    box-sizing: border-box;
-}
-
-.v132_355 {
-    width: 17px;
-    height: 14px;
-    background: url("../images/v132_355.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    opacity: 1;
-    position: absolute;
-    top: 981px;
-    left: 1196px;
-    overflow: hidden;
-}
-
-.v132_356 {
-    width: 17px;
-    height: 14px;
-    background: rgba(0,0,0,1);
-    opacity: 1;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    overflow: hidden;
-}
-
-.my-link:link {
-    color: #7c9ead;
-    background-color: transparent;
-    text-decoration: none;
-}
-
-.my-link:hover {
-    color: blue;
-    background-color: underline;
-}
-
-.my-link:visited {
-    color: #7c9ead;
+#map {
+  width: 100%;
+  height: 100%;
 }
 
 
-
-a:link {
-    color: #c6e3ef;
-    background-color: transparent;
-    text-decoration: none;
-}
-
-a:hover {
-    color: blue;
-    background-color: underline;
-}
-
-a:visited {
-    color: #c6e3ef;
+.LetsGoSub {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  height: 50px;
+  margin: 10px auto; /* Added margin for vertical spacing */
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
