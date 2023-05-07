@@ -55,12 +55,12 @@ function sendPostRequest(text, first_name, last_name, nationality, age, gender, 
 }
 
 document.getElementById("LetsGoSub").addEventListener("click", function () {
-  const text = document.getElementById("start").value;
-  const firstName = document.getElementById("date").value;
-  const lastName = document.getElementById("destinations").value;
-  const nationality = document.getElementById("extra").value;
+    const duration = document.getElementById("start").value;
+    const start = document.getElementById("date").value;
+    const destinations = document.getElementById("destinations").value;
+    const text = document.getElementById("extra").value;
 
-  sendPostRequest(text, firstName, lastName, nationality, "derp", "derp", "derp", "derp", "derp");
+    sendPostRequest(text, "null", "null", "null", "null", "null", destinations, duration, start);
 });
 
 function geocode_places(data_itinerary) {
