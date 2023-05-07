@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 const markers = [];
 
 function transformData(data) {
