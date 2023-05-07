@@ -143,7 +143,7 @@ def view_API(request): ## do not need to use APIView parent class
         itinerary_match = re.search(r"```(.*?)```?", content, re.DOTALL)
         if itinerary_match is not None:  ## if an itinerary was suggested
             ## Extract the itinerary, and convert it into a JSON object
-            text = json.loads(itinerary_match.group(1).strip(), strict=False)
+            text = itinerary_match.group(1).strip()
             # Remove leading and trailing spaces from column names
             text_formatted = text.replace('"', '')
             columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
@@ -198,10 +198,11 @@ def view_UI(request):
         print(f"content: {content}\n\n\n")
         num_tokens_from_string(content, OPENAI_CHAT_MODEL, "---RESPONSE")
         itinerary_match = re.search(r"```(.*?)```?", content, re.DOTALL)
+        print(f"itinerary_match: {itinerary_match.group(1)}")
         if itinerary_match is not None: ## if an itinerary was suggested
             print(f"\n\n\nITINERARY_DETECTED==========")
             ## Extract the itinerary, and convert it into a JSON object
-            text = json.loads(itinerary_match.group(1).strip(), strict=False)
+            text = itinerary_match.group(1).strip()
             # Remove leading and trailing spaces from column names
             text_formatted = text.replace('"', '')
             columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
