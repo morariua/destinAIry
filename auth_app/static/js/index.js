@@ -15,6 +15,8 @@ function initMap() {
         position: { lat: location.latitude, lng: location.longitude },
         map: map,
         location: location.name,
+        icon: Image,
+        optimized: true,
       });
       markers.push(marker);
     });

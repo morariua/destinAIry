@@ -39,3 +39,38 @@ def mainpage(request):
 
 def home(request):
     return render(request, 'home.html')
+
+from django.shortcuts import render
+from django.http import HttpResponse
+import json
+
+def json_view(request):
+    with open('chatgpt.json') as f:
+        data = json.load(f)
+    return HttpResponse(data)
+
+
+
+
+#q: upload the json data to the google maps api?
+# a: yes, you can add a new view to the views.py file and then add a new url to the urls.py file
+#q: please write the code to link the json data to the google maps api
+# a:    with open('chatgpt.json') as f:
+#         data = json.load(f)
+#     return HttpResponse(data)
+#q: please write the code to link the json data to the google maps api
+# a:    with open('chatgpt.json') as f:
+#         data = json.load(f)
+#     return HttpResponse(data)
+
+
+
+
+
+
+
+
+# Path: auth_app/views.py
+
+
+
