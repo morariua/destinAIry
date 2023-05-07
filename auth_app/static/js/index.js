@@ -19,13 +19,51 @@ function transformData(data) {
   return locations;
 }
 
+function sendPostRequest(text, first_name, last_name, nationality, age, gender, destinations, duration, start_date) {
+    fetch('http://localhost:8000/bot/api/', {
+        method: 'POST',
+        headers: new Headers({
+            'Authorization': 'bc8bf98f3bca1c5071d978b5192ef4c0c23837c85e1a42e5d03902d46d411894',
+            'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({
+            'text': text,
+            'first_name': first_name,
+            'last_name': last_name,
+            'nationality': nationality,
+            'age': age,
+            'gender': gender,
+            'destinations': destinations,
+            'duration': duration,
+            'start_date': start_date,
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            const result = {
+                'answer': data.answer,
+                'data': data.data
+            };
+            console.log("data.answer is ")
+            console.log(data.answer)
+            console.log("data.data is ")
+            console.log(data.data)
+            return result;
+        })
+        .then(result => console.log(result))
+        .catch(error => console.error(error));
+}
+
+function sendPost_and_initMap() {
+    sendPostRequest("derp", "derp", "derp", "derp", "derp", "derp", "derp", "derp", "derp")
+
+}
+
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 0, lng: 0 }, // Set the initial map center
     zoom: 2, // Set the initial zoom level
   });
-
-// for testing: 
 
 
   // Parse the JSON data and create markers for each location
