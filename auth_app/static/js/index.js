@@ -70,7 +70,16 @@ function initMap() {
         'Authorization': 'bc8bf98f3bca1c5071d978b5192ef4c0c23837c85e1a42e5d03902d46d411894',
         'Content-Type': 'application/json',
       }),
-      body: JSON.stringify({ 'question': question }),
+      body: { 'text': text,
+        'first_name': first_name,
+        'last_name': last_name,
+        'nationality': nationality,
+        'age': age,
+        'gender': gender,
+        'destinations': destinations,
+        'duration': duration,
+        'start_date': start_date,
+         },
     })
       .then((response) => response.json())
       .then((data) => {

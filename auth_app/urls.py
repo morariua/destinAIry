@@ -12,5 +12,4 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('mainpage/', views.mainpage, name='mainpage'),
     path('home/', views.home, name='home'),
-    path('json/', views.json_view, name='json_view'),
 ]
