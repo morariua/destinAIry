@@ -2,7 +2,7 @@ import os
 
 OPENAI_CHAT_MODEL = os.environ.get("OPENAI_CHAT_MODEL", "gpt-3.5-turbo")
 OPENAI_EMBEDDING_MODEL = os.environ.get("OPENAI_EMBEDDING_MODEL", "text-embedding-ada-002")
-TEMPERATURE = os.environ.get("TEMPERATURE", "0.5")
+TEMPERATURE = os.environ.get("TEMPERATURE", "0")
 CHUNK_SIZE = os.environ.get("CHUNK_SIZE", "256")
 CHUNK_OVERLAP = os.environ.get("CHUNK_OVERLAP", "20")
 MAX_TOKENS = os.environ.get("MAX_TOKENS", "512")
