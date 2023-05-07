@@ -131,9 +131,9 @@ def view_API(request): ## do not need to use APIView parent class
         # print(f"response: {response}\n\n\n")
         # content = response.content
         content = 'I suggest the following itinerary for your 1-day trip to Mongolia on July 1, 2023:' \
-                  '```' \
-                  '"date","name","addr","pop","hrs","mode","cost","remark","type"' \
-                  '"2023-07-01","Gandantegchinlen Monastery","Gandantegchinlen Khiid","90","2.5","TX","0","Buddhist monastery with impressive statue of Avalokitesvara","POI"' \
+                  '```\n' \
+                  '"date","name","addr","pop","hrs","mode","cost","remark","type"\n' \
+                  '"2023-07-01","Gandantegchinlen Monastery","Gandantegchinlen Khiid","90","2.5","TX","0","Buddhist monastery with impressive statue of Avalokitesvara","POI"\n' \
                   '"2023-07-01","Gorkhi-Terelj National Park","Gorkhi-Terelj National Park","85","3","TX","0","National park with scenic views and hiking trails","POI"' \
                   '```' \
                   'The first place is Gandantegchinlen Monastery, a beautiful Buddhist monastery with an im' \
@@ -147,7 +147,7 @@ def view_API(request): ## do not need to use APIView parent class
             # Remove leading and trailing spaces from column names
             text_formatted = text.replace('"', '')
             columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
-            # print(f"columns: {columns}")
+            print(f"columns: {columns}")
             # Split the string into rows
             rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
             # print(f"rows: {rows}")
@@ -162,8 +162,11 @@ def view_API(request): ## do not need to use APIView parent class
             ## Extract out the text outside the itinerary
             pattern = re.compile(r'^((?:(?!```)[\s\S])+)[\s\S]*```[\s\S]*```')
             match = re.search(pattern, content)
-            if match:
-                response = match.group(1).strip()
+            pattern_2 = r'```([^`]*)$'
+            match_2 = re.search(pattern_2, content, re.DOTALL)
+            if match or match_2:
+                response = match.group(1).strip().replace(":", ".\n\n") + match_2.group(1).strip()
+                print(f"MATCHED_GROUP: {response}")
             else:
                 response = "Thank you for your suggestions. I have came up with the best itinerary I can for you."
             res = {'answer': response, 'data': json_output}
@@ -188,9 +191,9 @@ def view_UI(request):
         # print(f"response: {response}\n\n\n")
         # content = response.content
         content = 'I suggest the following itinerary for your 1-day trip to Mongolia on July 1, 2023:' \
-                  '```' \
-                  '"date","name","addr","pop","hrs","mode","cost","remark","type"' \
-                  '"2023-07-01","Gandantegchinlen Monastery","Gandantegchinlen Khiid","90","2.5","TX","0","Buddhist monastery with impressive statue of Avalokitesvara","POI"' \
+                  '```\n' \
+                  '"date","name","addr","pop","hrs","mode","cost","remark","type"\n' \
+                  '"2023-07-01","Gandantegchinlen Monastery","Gandantegchinlen Khiid","90","2.5","TX","0","Buddhist monastery with impressive statue of Avalokitesvara","POI"\n' \
                   '"2023-07-01","Gorkhi-Terelj National Park","Gorkhi-Terelj National Park","85","3","TX","0","National park with scenic views and hiking trails","POI"' \
                   '```' \
                   'The first place is Gandantegchinlen Monastery, a beautiful Buddhist monastery with an im' \
@@ -206,7 +209,7 @@ def view_UI(request):
             # Remove leading and trailing spaces from column names
             text_formatted = text.replace('"', '')
             columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
-            # print(f"columns: {columns}")
+            print(f"columns: {columns}")
             # Split the string into rows
             rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
             # print(f"rows: {rows}")
@@ -221,8 +224,10 @@ def view_UI(request):
             ## Extract out the text outside the itinerary
             pattern = re.compile(r'^((?:(?!```)[\s\S])+)[\s\S]*```[\s\S]*```')
             match = re.search(pattern, content)
-            if match:
-                response = match.group(1).strip()
+            pattern_2 = r'```([^`]*)$'
+            match_2 = re.search(pattern_2, content, re.DOTALL)
+            if match or match_2:
+                response = match.group(1).strip().replace(":", ".\n\n") + match_2.group(1).strip()
                 print(f"MATCHED_GROUP: {response}")
             else:
                 response = "Thank you for your suggestions. I have came up with the best itinerary I can for you."
