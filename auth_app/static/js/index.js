@@ -20,7 +20,7 @@ function transformData(data) {
 }
 
 function sendPostRequest(text, first_name, last_name, nationality, age, gender, destinations, duration, start_date) {
-    fetch('http://localhost:8000/bot/api/', {
+    fetch('http://127.0.0.1:8000/bot/api/', {
         method: 'POST',
         headers: new Headers({
             'Authorization': 'bc8bf98f3bca1c5071d978b5192ef4c0c23837c85e1a42e5d03902d46d411894',
@@ -54,10 +54,14 @@ function sendPostRequest(text, first_name, last_name, nationality, age, gender, 
         .catch(error => console.error(error));
 }
 
-function sendPost_and_initMap() {
-    sendPostRequest("derp", "derp", "derp", "derp", "derp", "derp", "derp", "derp", "derp")
+document.getElementById("LetsGoSub").addEventListener("click", function () {
+  const text = document.getElementById("start").value;
+  const firstName = document.getElementById("date").value;
+  const lastName = document.getElementById("destinations").value;
+  const nationality = document.getElementById("extra").value;
 
-}
+  sendPostRequest(text, firstName, lastName, nationality, "derp", "derp", "derp", "derp", "derp");
+});
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
@@ -116,5 +120,3 @@ fetchMarkersData(); // Call fetchMarkersData() on page load
 window.onload = function () {
 initMap();
 };
-
->>>>>>> 6c66fc8b758ef78d5698dc929c91044581ec0c6a
