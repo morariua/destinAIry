@@ -3,9 +3,10 @@
 <html>
 
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Zen+Kaku+Gothic+Antique&display=swap" rel="stylesheet" />
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <link rel = "stylesheet" type = "text/css" href = "{% static 'main.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.3.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.3.0/ol.css">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    
     <!-- mainpage.html -->
 
     <title>DestinAIry - MainPage</title>
@@ -27,10 +28,6 @@
     <div class="map-container"id="floating-panel">
         <div id="map"></div>
     </div>
-        <button class="TEST" id="TEST" onclick="sendPost_and_initMap()">test</button>
-        <div id="floating-panel">
-            <div id="map"></div>
-        </div>
 
     </div>
     <script type = "text/javascript" src="{% static 'js/index.js' %}"></script>
@@ -40,4 +37,3 @@
 
 
 <!-- prettier-ignore -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxe6-eUMgzOlgpNhlwVk-BRC5qDHlOgj4"></script>
