@@ -1,14 +1,13 @@
 import json
-from typing import re
+import re
+from .openaiSetup import generate_response
 
 import pandas as pd
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .shared_keys import MAX_CHAR_INPUT, INPUT_EXCEEDED_MESSAGE, OPENAI_CHAT_MODEL
-from . import langllamaSetup
 from .usefulFunc import num_tokens_from_string
-from .utils import setup_chatgpt
 
 from rest_framework.decorators import api_view, authentication_classes,\
 permission_classes
@@ -114,28 +113,55 @@ def view_API(request): ## do not need to use APIView parent class
             res = {'answer': INPUT_EXCEEDED_MESSAGE}
             return JsonResponse(res)
         try:
-            response = langllamaSetup.agentExecutor_DestinAIry.run(input=question.replace('\n', ' ')).strip().replace('\n', '<br>')
-        except ValueError as e:
-            response = str(e)
-            if not response.startswith("Could not parse LLM output: "):
-                raise e
-            response = response.removeprefix("Could not parse LLM output: ").removesuffix("`").strip()
-        num_tokens_from_string(response, OPENAI_CHAT_MODEL, "---RESPONSE")
-        #### GET CSV OUTPUT
-        csv_output = response.split("```")[1]
-        #### CONVERTING CSV TO JSON
-        # Split the string into rows
-        rows = csv_output.split('\n')
-        # Split each row into columns
-        columns = [row.split(',') for row in rows]
-        # Create a DataFrame from the columns
-        df = pd.DataFrame(columns[1:], columns=columns[0])
-
-        # Convert the DataFrame to a JSON object
-        json = df.to_json(orient='records')
-        response = json.loads(action.strip())
-        res = {}
-        res['answer'] = response
+            first_name = python_dict_c0ntent.get("first_name", "NULL")
+            last_name = python_dict_c0ntent.get("last_name", "NULL")
+            nationality = python_dict_c0ntent.get("nationality", "NULL")
+            age = python_dict_c0ntent.get("age", "NULL")
+            gender = python_dict_c0ntent.get("gender", "NULL")
+            destinations = python_dict_c0ntent.get("destinations", "NULL")
+            duration = python_dict_c0ntent.get("duration", "NULL")
+            start_date = python_dict_c0ntent.get("start_date", "NULL")
+            response = generate_response(text=question, first_name=first_name, last_name=last_name, nationality=nationality,
+                                         age=age, gender=gender, destinations=destinations, duration=duration,
+                                         start_date=start_date)
+        except Exception as e:
+            print (f"EXCEPTION OCCURRED: {e}")
+            res = {'answer': "Sorry, some details were missing in your prompt. Please try again."}
+            return JsonResponse(res)
+        # print(f"response: {response}\n\n\n")
+        content = response.content
+        print(f"content: {content}\n\n\n")
+        num_tokens_from_string(content, OPENAI_CHAT_MODEL, "---RESPONSE")
+        itinerary_match = re.search(r"```(.*?)```?", content, re.DOTALL)
+        if itinerary_match is not None:  ## if an itinerary was suggested
+            ## Extract the itinerary, and convert it into a JSON object
+            text = json.loads(itinerary_match.group(1).strip(), strict=False)
+            # Remove leading and trailing spaces from column names
+            text_formatted = text.replace('"', '')
+            columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
+            # print(f"columns: {columns}")
+            # Split the string into rows
+            rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
+            # print(f"rows: {rows}")
+            # Create a DataFrame from the columns
+            df = pd.DataFrame(rows, columns=columns).replace('"', '', regex=True)
+            # Set the date column as the index
+            df.set_index('date', inplace=False)  ## if True, date column will disappear
+            # Convert the DataFrame to a JSON object
+            json_output = df.to_json(orient='records')
+            # Print the JSON object
+            print(f"json_output: {json_output}")
+            ## Extract out the text outside the itinerary
+            pattern = re.compile(r'^((?:(?!```)[\s\S])+)[\s\S]*```[\s\S]*```')
+            match = re.search(pattern, content)
+            if match:
+                response = match.group(1).strip()
+            else:
+                response = "Thank you for your suggestions. I have came up with the best itinerary I can for you."
+            res = {'answer': response, 'data': json_output}
+            return JsonResponse(res)
+        ## Else just return AI response which is to ask for more questions
+        res = {'answer': content}
         return JsonResponse(res)
 
 
@@ -149,46 +175,45 @@ def view_UI(request):
             res = {}
             res['answer'] = INPUT_EXCEEDED_MESSAGE
             return JsonResponse(res)
-        # response = langllamaSetup.agentExecutor_DestinAIry.run(input=question.replace('\n', ' ')).strip().replace('\n', '<br>')
-        from .chatTempl import chat_prompt
-        print(f"chat_prompt: {chat_prompt}")
-        response = chat_prompt.format()
-        print(f"response: {response}")
-        # try:
-        #     if response.__contains__("None"):
-        #         response = "Sorry, I do not have the answer to your question."
-        # except ValueError as e:
-        #     response = str(e)
-        #     if not response.startswith("Could not parse LLM output: "):
-        #         raise e
-        #     response = response.removeprefix("Could not parse LLM output: ").removesuffix("`").strip()
-        # num_tokens_from_string(response, OPENAI_CHAT_MODEL, "---RESPONSE")
-        # itinerary_match = re.search(r"```(.*?)```?", response, re.DOTALL)
-        # if itinerary_match is not None:
-        #     text = json.loads(itinerary_match.group(1).strip(), strict=False)
-        # # Remove leading and trailing spaces from column names
-        # text_formatted = text.replace('"', '')
-        # columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
-        # print(f"columns: {columns}")
-        # # Split the string into rows
-        # rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
-        # print(f"rows: {rows}")
-        # # Create a DataFrame from the columns
-        # df = pd.DataFrame(rows, columns=columns).replace('"', '', regex=True)
-        #
-        # # Set the date column as the index
-        # df.set_index('date', inplace=False) ## if True, date column will disappear
-        #
-        # # Convert the DataFrame to a JSON object
-        # json_output = df.to_json(orient='records')
-        #
-        # # Print the JSON object
-        # print(json_output)
-        #
-        # res = {}
-        # res['answer'] = rows
-        # print(f"\n\nr0ws: {rows}")
-        # return JsonResponse(res)
+        response = generate_response(text=question, first_name="jerry", last_name="guo", nationality="chinese",
+                                                age="16", gender="male", destinations="mongolia", duration="1 day", start_date="july 1, 2023")
+        # print(f"response: {response}\n\n\n")
+        content = response.content
+        print(f"content: {content}\n\n\n")
+        num_tokens_from_string(content, OPENAI_CHAT_MODEL, "---RESPONSE")
+        itinerary_match = re.search(r"```(.*?)```?", content, re.DOTALL)
+        if itinerary_match is not None: ## if an itinerary was suggested
+            print(f"\n\n\nITINERARY_DETECTED==========")
+            ## Extract the itinerary, and convert it into a JSON object
+            text = json.loads(itinerary_match.group(1).strip(), strict=False)
+            # Remove leading and trailing spaces from column names
+            text_formatted = text.replace('"', '')
+            columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
+            # print(f"columns: {columns}")
+            # Split the string into rows
+            rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
+            # print(f"rows: {rows}")
+            # Create a DataFrame from the columns
+            df = pd.DataFrame(rows, columns=columns).replace('"', '', regex=True)
+            # Set the date column as the index
+            df.set_index('date', inplace=False)  ## if True, date column will disappear
+            # Convert the DataFrame to a JSON object
+            json_output = df.to_json(orient='records')
+            # Print the JSON object
+            print(f"json_output: {json_output}")
+            ## Extract out the text outside the itinerary
+            pattern = re.compile(r'^((?:(?!```)[\s\S])+)[\s\S]*```[\s\S]*```')
+            match = re.search(pattern, content)
+            if match:
+                response = match.group(1).strip()
+                print(f"MATCHED_GROUP: {response}")
+            else:
+                response = "Thank you for your suggestions. I have came up with the best itinerary I can for you."
+            res = {'answer': response, 'data': json_output}
+            return JsonResponse(res)
+        ## Else just return AI response which is to ask for more questions
+        res = {'answer': content}
+        return JsonResponse(res)
     return render(request, 'chatb0t.html')
 
 
