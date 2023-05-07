@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 const markers = [];
 
 function transformData(data) {
@@ -117,3 +119,4 @@ window.onload = function () {
 initMap();
 };
 
+>>>>>>> 6c66fc8b758ef78d5698dc929c91044581ec0c6a
