@@ -12,7 +12,7 @@ function transformData(data) {
       mode: item.mode,
       cost: item.cost,
       remark: item.remark,
-      type: item.type,
+      type: item.type
     };
   });
 
@@ -24,13 +24,12 @@ function initMap() {
     center: { lat: 0, lng: 0 }, // Set the initial map center
     zoom: 2, // Set the initial zoom level
   });
-  const directionsService = new google.maps.DirectionsService();
 
-  // Parse the JSON file and create markers for each location
-  function createMarkers(locations) {
-    locations.forEach((location) => {
+  // Parse the JSON data and create markers for each location
+  function createMarkers(data) {
+    data.forEach((location) => {
       const marker = new google.maps.Marker({
-        position: { lat: parseFloat(location.latitude), lng: parseFloat(location.longitude) },
+        position: { lat: parseFloat(location.addr.lat), lng: parseFloat(location.addr.lng) },
         map: map,
         title: location.name,
         optimized: true,
@@ -62,41 +61,44 @@ function initMap() {
     });
   }
 
-  // Fetch the JSON data from the Django server based on user question
-  function fetchMarkersData(question) {
+  // Fetch the JSON data from the Django server
+  function fetchMarkersData() {
+    const locations = transformData('text': text,
+    'first_name': first_name,
+    'last_name': last_name,
+    'nationality': nationality,
+    'age': age,
+    'gender': gender,
+    'destinations': destinations,
+    'duration': duration,
+    'start_date': start_date,
+     ); // Replace 'jsonData' with the actual JSON data
     return fetch('http://127.0.0.1:8000/bot/api/', {
       method: 'POST',
       headers: new Headers({
         'Authorization': 'bc8bf98f3bca1c5071d978b5192ef4c0c23837c85e1a42e5d03902d46d411894',
         'Content-Type': 'application/json',
       }),
-      body: JSON.stringify({ 'question': question }),
+      body: JSON.stringify(),
     })
       .then((response) => response.json())
       .then((data) => {
-        // Process the JSON data and create markers on the map
-        console.log(data);
-        const locations = transformData(data);
-        createMarkers(locations);
-      })
-      .catch((error) => {
+        //
+      console.log(data);
+      createMarkers(data);
+    }).catch((error) => {
         console.error('Error:', error);
-      });
+    });
   }
 
-  // Call fetchMarkersData() on page load with a sample question
-  fetchMarkersData('Hello'); // Replace 'Hello' with the desired user question
+// Call fetchMarkersData() when the button is clicked
+document.getElementById("TEST").addEventListener("click", fetchMarkersData);
 
-  // Optional: Call fetchMarkersData() when a button with id "TEST" is clicked
-  document.getElementById("TEST").addEventListener("click", () => {
-    const userQuestion = prompt("Enter your question:");
-    if (userQuestion) {
-      fetchMarkersData(userQuestion);
-    }
-  });
+fetchMarkersData(); // Call fetchMarkersData() on page load
 }
 
 // Call initMap() when the page finishes loading
 window.onload = function () {
-  initMap();
+initMap();
 };
+
