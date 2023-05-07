@@ -40,14 +40,6 @@ def mainpage(request):
 def home(request):
     return render(request, 'home.html')
 
-from django.shortcuts import render
-from django.http import HttpResponse
-import json
-
-def json_view(request):
-    with open('chatgpt.json') as f:
-        data = json.load(f)
-    return HttpResponse(data)
 
 
 
