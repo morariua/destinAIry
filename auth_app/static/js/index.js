@@ -25,6 +25,9 @@ function initMap() {
     zoom: 2, // Set the initial zoom level
   });
 
+// for testing: 
+
+
   // Parse the JSON data and create markers for each location
   function createMarkers(data) {
     data.forEach((location) => {
