@@ -20,7 +20,7 @@ function transformData(data) {
 }
 
 function sendPostRequest(text, first_name, last_name, nationality, age, gender, destinations, duration, start_date) {
-    fetch('http://127.0.0.1:8000/bot/api/', {
+    fetch('http://localhost:8000/bot/api/', {
         method: 'POST',
         headers: new Headers({
             'Authorization': 'bc8bf98f3bca1c5071d978b5192ef4c0c23837c85e1a42e5d03902d46d411894',
