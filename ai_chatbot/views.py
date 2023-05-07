@@ -1,4 +1,5 @@
 import json
+from csv import DictReader
 import re
 from .openaiSetup import generate_response
 
@@ -142,23 +143,21 @@ def view_API(request): ## do not need to use APIView parent class
         num_tokens_from_string(content, OPENAI_CHAT_MODEL, "---RESPONSE")
         itinerary_match = re.search(r"```(.*?)```?", content, re.DOTALL)
         if itinerary_match is not None:  ## if an itinerary was suggested
+            print(f"\n\n\nITINERARY_DETECTED==========")
             ## Extract the itinerary, and convert it into a JSON object
             text = itinerary_match.group(1).strip()
-            # Remove leading and trailing spaces from column names
-            text_formatted = text.replace('"', '')
-            columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
-            print(f"columns: {columns}")
-            # Split the string into rows
-            rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
-            # print(f"rows: {rows}")
-            # Create a DataFrame from the columns
-            df = pd.DataFrame(rows, columns=columns).replace('"', '', regex=True)
+            rows = []
+            for row in DictReader(text.splitlines(), delimiter=',', quotechar='"'):
+                rows.append(row)
+            df = pd.DataFrame(rows)
+            # Remove any double quotes from all columns
+            df = df.applymap(lambda x: x.replace('"', '') if isinstance(x, str) else x)
             # Set the date column as the index
-            df.set_index('date', inplace=False)  ## if True, date column will disappear
+            df.set_index('date', inplace=False)
             # Convert the DataFrame to a JSON object
             json_output = df.to_json(orient='records')
             # Print the JSON object
-            print(f"json_output: {json_output}")
+            print(f"\n\njson_output: {json_output}\n\n")
             ## Extract out the text outside the itinerary
             pattern = re.compile(r'^((?:(?!```)[\s\S])+)[\s\S]*```[\s\S]*```')
             match = re.search(pattern, content)
@@ -186,18 +185,26 @@ def view_UI(request):
             res = {}
             res['answer'] = INPUT_EXCEEDED_MESSAGE
             return JsonResponse(res)
-        # response = generate_response(text=question, first_name="jerry", last_name="guo", nationality="chinese",
-        #                                         age="16", gender="male", destinations="mongolia", duration="1 day", start_date="july 1, 2023")
-        # print(f"response: {response}\n\n\n")
-        # content = response.content
-        content = 'I suggest the following itinerary for your 1-day trip to Mongolia on July 1, 2023:' \
-                  '```\n' \
-                  '"date","name","addr","pop","hrs","mode","cost","remark","type"\n' \
-                  '"2023-07-01","Gandantegchinlen Monastery","Gandantegchinlen Khiid","90","2.5","TX","0","Buddhist monastery with impressive statue of Avalokitesvara","POI"\n' \
-                  '"2023-07-01","Gorkhi-Terelj National Park","Gorkhi-Terelj National Park","85","3","TX","0","National park with scenic views and hiking trails","POI"' \
-                  '```' \
-                  'The first place is Gandantegchinlen Monastery, a beautiful Buddhist monastery with an im' \
-                  'pressive statue of Avalokitesvara. The second place is Gorkhi-Terelj National Park, a national park with scenic views and hiking trails. Both places are best reached by car and are highly popular tourist destinations. This itinerary should give you a great taste of Mongolias culture and natural beauty in just one day.'
+        response = generate_response(text=question, first_name="casey", last_name="vo", nationality="viet",
+                                                age="21", gender="female", destinations="paris", duration="1 day", start_date="june1,2023")
+        print(f"response: {response}\n\n\n")
+        content = response.content
+#         content = """Great! Based on your preferences, here's an itinerary for your one-day trip to Shanghai:
+# ```
+# "date","name","addr","pop","hrs","mode","cost","remark","type"
+# "2022/11/01","Grand Mercure Shanghai Century Park","1199 Yingchun Road, Pudong New Area","90","NA","NA","500","Wheelchair-friendly hotel near Century Park","ACC"
+# "2022/11/01","Century Park","Huamu Road","85","2","WK","0","Large park with lake, gardens and sports facilities","POI"
+# "2022/11/01","Shanghai Tower","501 Yincheng Middle Road, Lujiazui, Pudong New Area","95","3","TX","150","Tallest building in China with observation deck","POI"
+# "2022/11/01","Nanjing Road Pedestrian Street","Nanjing Road","90","2","WK","0","Famous shopping street with cafes and restaurants","POI"
+# "2022/11/01","Tianzifang","Lane 210, Taikang Road, Luwan District","80","2","WK","0","Artistic alleyways with cafes and shops","POI"
+# "2022/11/01","Yu Garden","218 Anren Street, Huangpu District","85","2","WK","40","Classical Chinese garden with tea house","POI"
+# "2022/11/01","Hengshan Road","Hengshan Road","80","2","WK","0","Tree-lined street with cafes and bars","POI"
+# "2022/11/01","Xintiandi","Lane 181, Taicang Road, Luwan District","85","2","WK","0","Historic shikumen buildings with cafes and shops","POI"
+# "2022/11/01","Jade Buddha Temple","170 Anyuan Road, Putuo District","85","2","WK","50","Buddhist temple with jade Buddha statues","POI"
+# "2022/11/01","Wheelock Square","1717 Nanjing West Road, Jing'an District","80","2","WK","0","Modern shopping mall with cafes and restaurants","POI"
+# ```
+# You will be staying at the Grand Mercure Shanghai Century Park, a wheelchair-friendly hotel near Century Park. On your first day, you can visit Century Park, the largest park in Shanghai, and then head
+#         """
         print(f"content: {content}\n\n\n")
         num_tokens_from_string(content, OPENAI_CHAT_MODEL, "---RESPONSE")
         itinerary_match = re.search(r"```(.*?)```?", content, re.DOTALL)
@@ -206,21 +213,18 @@ def view_UI(request):
             print(f"\n\n\nITINERARY_DETECTED==========")
             ## Extract the itinerary, and convert it into a JSON object
             text = itinerary_match.group(1).strip()
-            # Remove leading and trailing spaces from column names
-            text_formatted = text.replace('"', '')
-            columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
-            print(f"columns: {columns}")
-            # Split the string into rows
-            rows = [row.strip().split(',') for row in text_formatted.split('\n')[1:]]
-            # print(f"rows: {rows}")
-            # Create a DataFrame from the columns
-            df = pd.DataFrame(rows, columns=columns).replace('"', '', regex=True)
+            rows = []
+            for row in DictReader(text.splitlines(), delimiter=',', quotechar='"'):
+                rows.append(row)
+            df = pd.DataFrame(rows)
+            # Remove any double quotes from all columns
+            df = df.applymap(lambda x: x.replace('"', '') if isinstance(x, str) else x)
             # Set the date column as the index
-            df.set_index('date', inplace=False)  ## if True, date column will disappear
+            df.set_index('date', inplace=False)
             # Convert the DataFrame to a JSON object
             json_output = df.to_json(orient='records')
             # Print the JSON object
-            print(f"json_output: {json_output}")
+            print(f"\n\njson_output: {json_output}\n\n")
             ## Extract out the text outside the itinerary
             pattern = re.compile(r'^((?:(?!```)[\s\S])+)[\s\S]*```[\s\S]*```')
             match = re.search(pattern, content)
