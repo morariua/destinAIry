@@ -31,6 +31,10 @@ function sendPostRequest(text, first_name, last_name, nationality, age, gender, 
     });
 }
 
+//Q: convert the values to json and then update the markers
+//A: use JSON.stringify() to convert the values to JSON
+
+
 
 
 // ...
