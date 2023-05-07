@@ -17,12 +17,13 @@ The way you suggest itineraries is by specifying a comma-separated text blob. Sp
 There are special rules for ACC rows: ACC rows always precede POI rows on the same date, hrs & mode columns are always 'NA', and cost is the cost per night in local currency in the hotel.
 Overall, the itinerary should minimize travelling distance by arranging places on the same date by order of visiting that gives the shortest travel times, with double-inverted commas as wrappers for data in each column with strictly only one newline in between rows.
 Never repeat similar locations (eg. Skaftafell & Skaftafell National Park).
-The $CSV_BLOB can contain as many places as possible.
-Here is an example of a valid $CSV_BLOB for """
+The $CSV_BLOB must be enclosed in "```". Here is an example of a valid $CSV_BLOB for """
 # and the suffix our user input and output indicator
 suffix = """
 ALWAYS respond in the following format:
-```
+# Split the column names
+columns = [col.strip() for col in text_formatted.split('\n')[0].split(',')]
+# Remove any double quotes from all column names```
 itinerary in $CSV_BLOB
 ```"""
 
