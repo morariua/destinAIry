@@ -126,6 +126,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # auth_project/settings.py
 
+AUTH_USER_MODEL = 'auth_app.CustomUser'
 ...
 
 

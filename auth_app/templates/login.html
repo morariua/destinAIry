@@ -1,8 +1,89 @@
 <!-- auth_app/login.html -->
+{% load static %}
+    
+</body>
+</html>
 
-<h2>Login</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Zen+Kaku+Gothic+Antique&display=swap" rel="stylesheet" />
+        <link rel = "stylesheet" type = "text/css" href = "{% static 'login.css' %}">
+        <title>DestinAIry - Login</title>
+    </head>
+    <body>
+        <div class="v12_1897">
+            <div class="v12_1898">
+                <div class="v12_1899">
+                    <div class="v12_1900">
+                        <div class="v12_1901"></div>
+                        <div class="v12_1902"></div>
+                        <div class="v12_1903"></div>
+                        <div class="v12_1904"></div>
+                        <div class="v12_1905"></div>
+                        <div class="v12_1906"></div>
+                        <div class="v12_1907"></div>
+                        <div class="v12_1908"></div>
+                        <div class="v12_1909"></div>
+                        <div class="v12_1910"></div>
+                        <div class="v12_1911"></div>
+                        <div class="v12_1912"></div>
+                    </div>
+                    <div class="v12_1913">
+                        <div class="v12_1914"></div>
+                        <div class="v12_1915"></div>
+                        <div class="v12_1916"></div>
+                        <div class="v12_1917"></div>
+                        <div class="v12_1918"></div>
+                        <div class="v12_1919"></div>
+                        <div class="v12_1920"></div>
+                        <div class="v12_1921"></div>
+                        <div class="v12_1922"></div>
+                        <div class="v12_1923"></div>
+                        <div class="v12_1924"></div>
+                        <div class="v12_1925"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="v12_1926">
+                <span class="v12_1927">Start Your 14-Day Free Trial Today.</span>
+            </div>
+            <div class="v12_1931">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="button--container">
+                        <button class="btn btn-danger" type="submit">Continue</button>
+                    </div>
+                </form>
+            </div>
+            <div class="v12_1947">
+                <div class="v12_1948">
+                    <div class="v12_1949"></div>
+                    <div class="v12_1950"></div>
+                </div>
+                <span class="v12_1951">DestinAIry</span>
+            </div>
+            <div class="v12_1952">
+                <div class="v12_1953"></div>
+                <div class="v12_1954"></div>
+                <span class="v12_1955">Or use Email</span>
+            </div>
+            <div class="v12_1956">
+                <div class="v12_1957"></div>
+                <span class="v12_1959">Sign up with Google</span>
+                <div class="v12_1960">
+                    <div class="v12_1961"></div>
+                    <div class="v12_1962">
+                        <div class="v12_1963"></div>
+                        <div class="v12_1964"></div>
+                        <div class="v12_1965"></div>
+                        <div class="v12_1966"></div>
+                        <div class="v12_1967"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="v12_1968">By Signing up to DestinAiry, means you agree to our Privacy Policy and Terms of Service</span>
+        </div>
+    </body>
+</html>
